@@ -1,0 +1,73 @@
+//detect and remove loop from a given linkedlist
+#include<bits/stdc++.h>
+using namespace std;
+struct Node{
+  int data;
+  Node* next;
+  Node(int x)
+  {
+    data = x;
+    next=NULL;
+  }
+};
+void removeloop(Node*,Node*);
+int detectandremove(Node* list)
+{
+  Node *slow_p=list,*fast_p=list;
+  while(slow_p && fast_p && fast_p->next )
+   {
+      slow_p=slow_p->next;
+      fast_p=fast_p->next->next;
+      if(slow_p==fast_p)
+      {
+        removeloop(slow_p,list);
+        return 1;
+      }
+   }
+   return 0;
+}
+void removeloop(Node* loop_node,Node* head)
+{
+  Node* ptr1=loop_node;
+  Node* ptr2=loop_node;
+  unsigned int k=1,i;
+  while(ptr1->next!=ptr2)
+  {
+    ptr1=ptr1->next;
+    k++;
+  }
+  ptr1=head;
+  ptr2=head;
+  for(i=0;i<k;i++)
+  ptr2=ptr2->next;
+  while(ptr2!=ptr1)
+  {
+    ptr1=ptr1->next;
+    ptr2=ptr2->next;
+  }
+  while(ptr2->next!=ptr1)
+  ptr2=ptr2->next;
+  ptr2->next=NULL;
+}
+void printlist(Node* node)
+{
+  while(node!-NULL)
+  {
+    cout<<node->data<<" ";
+    node=node->next;
+  }
+}
+int main()
+{
+  Node* head=new Node(50);
+  head->next=new Node(20);
+  head->next->net=new Node(15);
+  head->next->next->next=new Node(4);
+  head->next->next->next->next=new Node(10);
+  head->next->next->next->next->next=head->next->next;
+  detectandremove(head);
+  cout<<"linkedlist after removing loop\n";
+  printlist(head);
+  return 0;
+
+}
